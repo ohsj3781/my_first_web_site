@@ -1,0 +1,22 @@
+#one{
+    background-color: gold;
+    width: 200px;
+    height: 50px;
+}
+#two{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: hotpink;
+    width: 200px;
+    height: 50px;
+}
+#three{
+    background-color: lightblue;
+    width: 200px;
+    height: 50px;
+}
+
+#footer{
+    clear: both;
+}
