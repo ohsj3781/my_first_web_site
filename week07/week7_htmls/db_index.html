@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Submission (AJAX Example)</title>
+</head>
+<body>
+  <h1>Playlist</h1>
+
+  <form id="musicForm">
+    <label for="songName">Music:</label>
+    <input type="text" id="songName" name="songName" required>
+    <br><br>
+
+    <label for="artist">Artist:</label>
+    <input type="text" id="artist" name="artist" required>
+    <br><br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <p id="responseMessage"></p>
+
+  <h2>Music List</h2>
+  <ul id="musicList"></ul> 
+
+  <script>
+    document.getElementById('musicForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const songName = document.getElementById('songName').value;
+      const artist = document.getElementById('artist').value;
+
+      fetch('/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ songName, artist })
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('responseMessage').innerText = data.message;
+
+        updateMusicList(data.musicList);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+      document.getElementById('songName').value = '';
+      document.getElementById('artist').value = '';
+    });
+
+    function updateMusicList(musicList) {
+      const musicListElement = document.getElementById('musicList');
+      musicListElement.innerHTML = ''; 
+
+      musicList.forEach(music => {
+        const li = document.createElement('li');
+        li.textContent = `${music.index}. ${music.songName} - ${music.artist}`;
+        musicListElement.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
